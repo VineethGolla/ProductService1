@@ -22,7 +22,7 @@ amazon.in/card => CartController
 public class SampleController {
 
     @GetMapping("/hello/{name}/{times}")
-    public String hello(@PathVariable("name") String name,
+    public String sayhello(@PathVariable("name") String name,
                         @PathVariable("times") int x) {
         String s= "";
 
