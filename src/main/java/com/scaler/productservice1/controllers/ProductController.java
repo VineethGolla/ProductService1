@@ -1,6 +1,8 @@
 package com.scaler.productservice1.controllers;
 
 import com.scaler.productservice1.models.Product;
+import com.scaler.productservice1.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,10 +14,13 @@ import java.util.List;
 
 public class ProductController {
 
+    @Autowired
+    private ProductService productService;
+
     //localhost:8080/products/1
     @GetMapping("/{productId}")
     public Product getSingleProduct(@PathVariable("productId") Long productId) { //replace productID with value inside PathVariable
-        return null;
+        return productService.getSingleProduct(productId);
     }
 
     //localhost:8080/products
