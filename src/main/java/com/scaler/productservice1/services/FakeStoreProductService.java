@@ -28,8 +28,9 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreProductDto[].class);
-        FakeStoreProductDto [] fakeStoreProductDtos = responseEntity.getBody();
+        ResponseEntity<List<FakeStoreProductDto>> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products",
+                List<FakeStoreProductDto>.class);
+        List<FakeStoreProductDto> fakeStoreProductDtos = responseEntity.getBody();
         ArrayList<Product> products = new ArrayList<>();
         for(FakeStoreProductDto  fakeStoreProductDto : fakeStoreProductDtos){
             products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
@@ -42,7 +43,8 @@ public class FakeStoreProductService implements ProductService {
     public Product getSingleProduct(Long productId) {
         //make a http call to fakestore api and get the product with given id
         //https://fakestoreapi.com/products/1
-        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + productId,
+                FakeStoreProductDto.class);
 //Response of this API to convert to this Product object ---> "https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class
 //        FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
 
