@@ -1,6 +1,7 @@
 package com.scaler.productservice1.services;
 
 import com.scaler.productservice1.dtos.FakeStoreProductDto;
+import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Category;
 import com.scaler.productservice1.models.Product;
 import lombok.extern.apachecommons.CommonsLog;
@@ -40,24 +41,30 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(Long productId) {
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException {
         //make a http call to fakestore api and get the product with given id
         //https://fakestoreapi.com/products/1
         ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + productId,
                 FakeStoreProductDto.class);
 //Response of this API to convert to this Product object ---> "https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class
 //        FakeStoreProductDto.class — Tells it to convert response body into FakeStoreProductDto objectRetryClaude can make mistakes. Please double-check responses.
-//        FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
+        FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
+//        if(fakeStoreProductDto == null) {
+//            System.out.println("DEBUG");
+//        }
 
+        if(fakeStoreProductDto==null){
+            throw new ProductNotFoundException(productId);
+        }
         return convertFakeStoreProductDtoToProduct(responseEntity.getBody());
     }
 
     //unwrap, convert
     private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto FakeStoreProductDto) {
 
-        if(FakeStoreProductDto == null) {
-            return null;
-        }
+//        if(FakeStoreProductDto == null) {
+//            return null;
+//        }
         Product product = new Product();
         product.setId(FakeStoreProductDto.getId());
         product.setTitle(FakeStoreProductDto.getTitle());

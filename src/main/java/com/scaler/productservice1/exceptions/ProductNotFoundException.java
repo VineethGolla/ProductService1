@@ -1,0 +1,17 @@
+package com.scaler.productservice1.exceptions;
+
+public class ProductNotFoundException extends Exception {
+    public Long productId;
+    public ProductNotFoundException(Long productId) {
+
+        this.productId = productId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+}

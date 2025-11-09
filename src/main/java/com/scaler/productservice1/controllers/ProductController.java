@@ -1,8 +1,11 @@
 package com.scaler.productservice1.controllers;
 
+import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Product;
 import com.scaler.productservice1.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ public class ProductController {
 
     //localhost:8080/products/1
     @GetMapping("/{productId}")
-    public Product getSingleProduct(@PathVariable("productId") Long productId) { //replace productID with value inside PathVariable
+    public Product getSingleProduct(@PathVariable("productId") Long productId) throws ProductNotFoundException { //replace productID with value inside PathVariable
         return productService.getSingleProduct(productId);
     }
 
@@ -41,6 +44,10 @@ public class ProductController {
         return null;
     }
 
-
+    //first checks for exception handler in Controller itself then Global exception Handler and then the others
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException() {
+        return new ResponseEntity<>("Product Not Found, try again", HttpStatus.NOT_FOUND);
+    }
 
 }
