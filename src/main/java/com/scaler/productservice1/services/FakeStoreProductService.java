@@ -6,6 +6,7 @@ import com.scaler.productservice1.models.Category;
 import com.scaler.productservice1.models.Product;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.coyote.Response;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@Service
+@Service("fakeStoreProductService")
+//@Primary
 public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;
@@ -31,6 +33,7 @@ public class FakeStoreProductService implements ProductService {
     public List<Product> getAllProducts() {
         ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products",
                 FakeStoreProductDto[].class);
+        //Has body + status code + headers
         FakeStoreProductDto[] fakeStoreProductDtos = responseEntity.getBody();
         ArrayList<Product> products = new ArrayList<>();
         for(FakeStoreProductDto  fakeStoreProductDto : fakeStoreProductDtos){

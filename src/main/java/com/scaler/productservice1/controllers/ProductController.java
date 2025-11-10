@@ -3,7 +3,10 @@ package com.scaler.productservice1.controllers;
 import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Product;
 import com.scaler.productservice1.services.ProductService;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,13 @@ import java.util.List;
 @RestController
 
 @RequestMapping("/products") // endpoint - /products
-
+//@AllArgsConstructor
 public class ProductController {
-
-    @Autowired
     private ProductService productService;
+
+    public ProductController(@Qualifier("selfProductService") ProductService productService) { //two implementations of ProductService exist, so we use Qualifier to specify which one to use, we can also use one Bean as primary so that we don't have to use Qualifier every time
+        this.productService = productService;
+    }
 
     //localhost:8080/products/1
     @GetMapping("/{productId}")
