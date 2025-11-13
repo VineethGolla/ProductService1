@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 @Entity(name = "products") //for hibernate to create a table for this class
 public class Product extends BaseModel{
-    private Long id;
     private String title;
     private String description;
     private Double price;

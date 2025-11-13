@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 
 @RequestMapping("/products") // endpoint - /products
-//@AllArgsConstructor
+//@AllArgsConstructor  ( must use Quallifier if more than one implementation of interface exists)
 public class ProductController {
     private ProductService productService;
 
@@ -38,12 +38,13 @@ public class ProductController {
     }
 
     //localhost:8080/products
-    @PostMapping()
+    @PostMapping()// create new product
     public Product createProduct(@RequestBody Product product) {
-        return null;
+
+        return productService.createProduct(product);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")// replace existing product with id
     public Product replaceProduct(@PathVariable("id") Long productId, @RequestBody Product product){
         //replace the existing product with id with the product
         return null;

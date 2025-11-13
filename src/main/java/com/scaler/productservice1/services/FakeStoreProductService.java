@@ -20,12 +20,13 @@ import java.util.List;
 
 
 @Service("fakeStoreProductService")
-//@Primary
+//@Primary or use Qualifier
 public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;
     //make a http call in spring boot application
     public FakeStoreProductService(RestTemplate restTemplate) {
+
         this.restTemplate = restTemplate;
     }
 
@@ -59,7 +60,7 @@ public class FakeStoreProductService implements ProductService {
         if(fakeStoreProductDto==null){
             throw new ProductNotFoundException(productId);
         }
-        return convertFakeStoreProductDtoToProduct(responseEntity.getBody());
+        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
 
     //unwrap, convert
@@ -75,7 +76,7 @@ public class FakeStoreProductService implements ProductService {
         product.setPrice(FakeStoreProductDto.getPrice());
         product.setImageUrl(FakeStoreProductDto.getImage());
         Category category = new Category();
-        category.setName(FakeStoreProductDto.getCategory());
+        category.setTitle(FakeStoreProductDto.getCategory());
         product.setCategory(category);
         return product;
     }

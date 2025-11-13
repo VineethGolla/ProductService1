@@ -5,10 +5,11 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Entity(name = "category") //for hibernate to create a table for this class
 public class Category extends BaseModel{
-    private Long id;
-    private String name;
+    private String title;
+//    private Long id;
+//    private String name;
 }

@@ -13,7 +13,7 @@ public class AppConfig {
 }
 
 //we use it in service class to make api calls to external services.
-//Create a single Bean of it, store it some where, I'll reuse it.
+//Create a single Bean of it, store it somewhere, I'll reuse it.
 //Spring create va single bean.
 //@Configuration - tells spring that this class contains bean definitions/ marks as a special class
 //@Bean - tells spring that this method will return a bean instance.
