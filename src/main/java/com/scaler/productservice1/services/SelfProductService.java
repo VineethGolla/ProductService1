@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import javax.management.RuntimeErrorException;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,5 +68,21 @@ public class SelfProductService implements ProductService {
     @Override
     public Product replaceProduct(Long productId, Product product) {
         return null;
+    }
+
+    @Override
+    public Product getTitleAndPriceById(Long productId) throws RuntimeErrorException, ProductNotFoundException {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if(optionalProduct.isEmpty()){
+            throw new ProductNotFoundException(productId);
+        }
+
+        Product existingProduct = optionalProduct.get();
+        Product summaryProduct = new Product();
+        summaryProduct.setId(existingProduct.getId());
+        summaryProduct.setTitle(existingProduct.getTitle());
+        summaryProduct.setPrice(existingProduct.getPrice());
+        return summaryProduct;
     }
 }

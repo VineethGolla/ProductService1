@@ -112,4 +112,9 @@ public class FakeStoreProductService implements ProductService {
     public Product replaceProduct(Long productId, Product product) {
         return null;
     }
+
+    @Override
+    public Product getTitleAndPriceById(Long productId)  {
+        return null;
+    }
 }

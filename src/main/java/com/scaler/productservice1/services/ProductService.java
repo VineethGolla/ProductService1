@@ -10,4 +10,6 @@ public interface ProductService {
     Product getSingleProduct(Long productId) throws ProductNotFoundException;
     Product createProduct(Product product);
     Product replaceProduct(Long productId, Product product);
+
+    Product getTitleAndPriceById(Long productId) throws ProductNotFoundException;
 }
