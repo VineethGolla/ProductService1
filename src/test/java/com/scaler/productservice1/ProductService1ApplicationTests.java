@@ -18,13 +18,12 @@ class ProductService1ApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    public void testQUERY(){
-        List<ProductWithTitleAndPrice> productwithtitleandprice = productRepository.findTitleandPriceById();
-
-        for(ProductWithTitleAndPrice p: productwithtitleandprice){
-            System.out.println("Title: "+p.getTitle()+" Price: "+p.getPrice());
-        }
-    }
-
+//    @Test
+//    public void testQUERY(){
+//        List<ProductWithTitleAndPrice> productwithtitleandprice = productRepository.findTitleandPriceById();
+//
+//        for(ProductWithTitleAndPrice p: productwithtitleandprice){
+//            System.out.println("Title: "+p.getTitle()+" Price: "+p.getPrice());
+//        }
+//    }
 }

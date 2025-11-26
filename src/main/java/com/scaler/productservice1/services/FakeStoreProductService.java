@@ -117,4 +117,8 @@ public class FakeStoreProductService implements ProductService {
     public Product getTitleAndPriceById(Long productId)  {
         return null;
     }
+
+    public void deleteproductByid(Long productId)  {
+
+    }
 }

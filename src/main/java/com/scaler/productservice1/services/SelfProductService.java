@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("selfProductService")
-//@Primary
+@Primary
 public class SelfProductService implements ProductService {
     private ProductRepository productRepository;
 
@@ -84,5 +84,18 @@ public class SelfProductService implements ProductService {
         summaryProduct.setTitle(existingProduct.getTitle());
         summaryProduct.setPrice(existingProduct.getPrice());
         return summaryProduct;
+    }
+
+    public void deleteproductByid(Long productId) throws ProductNotFoundException {
+//        Optional<Product> optionalProduct =productRepository.deleteById(productId);
+//
+//        if(optionalProduct.isEmpty()){
+//            throw new ProductNotFoundException(productId);
+//        }
+        if(!productRepository.existsById(productId)){
+            throw new ProductNotFoundException(productId);
+        }
+
+        productRepository.deleteById(productId);
     }
 }

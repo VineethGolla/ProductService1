@@ -1,10 +1,7 @@
 package com.scaler.productservice1.repositories;
 
 import com.scaler.productservice1.models.Product;
-import com.scaler.productservice1.projections.ProductWithTitleAndPrice;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -37,6 +34,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> { //name
     @Override
     void deleteById(Long aLong);
 
+    boolean existsById(Long aLong);
+
     /*c r u d
     c,u -> upsert
     think of it, DB creates table, if ID is present in DB, it updates else creates new entry
@@ -47,6 +46,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> { //name
     //Query : find the title and price of the product with id=10;
     //select title, price from products where id=10;
 
+
+
     //important ***
 //    @Query("select p.title as title, p.price as price from Product p where p.id= :id") //HQL/Hibernate Query Language
 //    @Query(value="select title, price from products where id= :id", nativeQuery = true)
@@ -55,6 +56,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> { //name
 
 //    @Query("select p.title as title, p.price as price from Product p where p.id=1") //HQL/Hibernate Query Language
 //    List<ProductWithTitleAndPrice> findTitleandPriceById(@Param("id") Long id); //If we have return type with exact some interface, Jpa tried to typecast it into the above type. Captures the above response and called as projections. Because we must return something
-    @Query(value="select title, price from products where id=2", nativeQuery = true)
-    List<ProductWithTitleAndPrice> findTitleandPriceById();
+//    @Query(value="select title, price from products where id=2", nativeQuery = true)
+//    List<ProductWithTitleAndPrice> findTitleandPriceById();
+
+
+
 }

@@ -26,5 +26,4 @@ public class ProductServiceExceptionHandler {
                 productNotFoundException.getProductId() +" is an invalid ProductID, pass a valid Id yoo",
                 HttpStatus.NOT_FOUND);
     }
-
 }
