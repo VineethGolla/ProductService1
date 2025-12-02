@@ -33,7 +33,7 @@ public class FakeStoreProductService implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products",
-                FakeStoreProductDto[].class);
+                FakeStoreProductDto[].class); //just like jpa returns <table, type> , here also we need something to return
         //Has body + status code + headers
         FakeStoreProductDto[] fakeStoreProductDtos = responseEntity.getBody();
         ArrayList<Product> products = new ArrayList<>();

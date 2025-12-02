@@ -55,7 +55,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> { //name
 //    @Query(value="select p.title, p.price from products where p.id=2", nativeQuery = true)
 
 //    @Query("select p.title as title, p.price as price from Product p where p.id=1") //HQL/Hibernate Query Language
-//    List<ProductWithTitleAndPrice> findTitleandPriceById(@Param("id") Long id); //If we have return type with exact some interface, Jpa tried to typecast it into the above type. Captures the above response and called as projections. Because we must return something
+//    List<ProductWithTitleAndPrice> findTitleandPriceById(@Param("id") Long id); //If we have return type with exact same interface, Jpa tries to typecast it into the above type. Captures the above response and called as projections. Because we must return something
 //    @Query(value="select title, price from products where id=2", nativeQuery = true)
 //    List<ProductWithTitleAndPrice> findTitleandPriceById();
 

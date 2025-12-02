@@ -1,17 +1,13 @@
 package com.scaler.productservice1.controllers;
 
+import com.scaler.productservice1.commons.AuthCommons;
 import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Product;
 import com.scaler.productservice1.services.ProductService;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,14 +26,24 @@ public class ProductController {
     //constructor is needed to get the access of that created bean to this class to pass as productService.someMethod()
 
     //localhost:8080/products/1
-    @GetMapping("/{productId}")
-    public Product getSingleProduct(@PathVariable("productId") Long productId) throws ProductNotFoundException { //replace productID with value inside PathVariable
-        return productService.getSingleProduct(productId);
+    @GetMapping("/{productId}/{tokenValue}")
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId, @PathVariable("tokenValue") String tokenValue) throws ProductNotFoundException { //replace productID with value inside PathVariable
+
+        Product product=null;
+        ResponseEntity<Product> responseEntity=null;
+        if(!AuthCommons.ValidateToken(tokenValue)) {
+            responseEntity = new ResponseEntity<>(product, HttpStatus.UNAUTHORIZED);
+        }else{
+            product = productService.getSingleProduct(productId);
+            responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
+        }
+        return responseEntity;
     }
 
     //localhost:8080/products
     @GetMapping()
     public List<Product> getAllProducts() {
+
         return productService.getAllProducts();
     }
 
@@ -64,6 +70,7 @@ public class ProductController {
         productService.deleteproductByid(productId);
         return new ResponseEntity<String>("Product with id " + productId + " deleted successfully", HttpStatus.OK);
     }
+
 
     //first checks for exception handler in Controller itself then Global exception Handler and then the others
     @ExceptionHandler(ProductNotFoundException.class)
