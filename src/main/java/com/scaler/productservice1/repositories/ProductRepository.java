@@ -1,12 +1,15 @@
 package com.scaler.productservice1.repositories;
 
 import com.scaler.productservice1.models.Product;
+//import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> { //name of the model with it's primary key type, it gets that table from that model
@@ -22,7 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> { //name
     List<Product> findByTitle(String title);
 
     //select * from products where lower(title) LIKE '%str%'
-    List<Product> findByTitleContainsIgnoreCase(String str);
+    Page<Product> findByTitleContainsIgnoreCase(String str, Pageable pageable);
 
     List<Product> findByPriceBetween(Double start, Double end);
 

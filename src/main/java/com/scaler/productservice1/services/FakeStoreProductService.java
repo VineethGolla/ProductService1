@@ -1,12 +1,13 @@
 package com.scaler.productservice1.services;
 
-import com.scaler.productservice1.dtos.FakeStoreProductDto;
+import  com.scaler.productservice1.dtos.FakeStoreProductDto;
 import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Category;
 import com.scaler.productservice1.models.Product;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.coyote.Response;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,5 +122,10 @@ public class FakeStoreProductService implements ProductService {
 
     public void deleteproductByid(Long productId)  {
 
+    }
+
+    @Override
+    public Page<Product> getProductsByCategoryTitleIgnoreCase(String title, int page, int size) {
+        return null;
     }
 }

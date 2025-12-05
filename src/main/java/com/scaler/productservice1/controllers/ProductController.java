@@ -4,10 +4,12 @@ import com.scaler.productservice1.commons.AuthCommons;
 import com.scaler.productservice1.exceptions.ProductNotFoundException;
 import com.scaler.productservice1.models.Product;
 import com.scaler.productservice1.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -69,6 +71,11 @@ public class ProductController {
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long productId) throws ProductNotFoundException {
         productService.deleteproductByid(productId);
         return new ResponseEntity<String>("Product with id " + productId + " deleted successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/title/{title}/{pageNumber}/{pageSize}")
+    public Page<Product> getProductByTitleIgnoreCase(@PathVariable("title") String title, @PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize) {
+        return productService.getProductsByCategoryTitleIgnoreCase(title, pageNumber, pageSize);
     }
 
 

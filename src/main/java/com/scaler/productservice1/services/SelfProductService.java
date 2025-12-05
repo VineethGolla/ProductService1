@@ -7,10 +7,14 @@ import com.scaler.productservice1.repositories.CategoryRepository;
 import com.scaler.productservice1.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.management.RuntimeErrorException;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,5 +101,16 @@ public class SelfProductService implements ProductService {
         }
 
         productRepository.deleteById(productId);
+    }
+
+    @Override
+    public Page<Product> getProductsByCategoryTitleIgnoreCase(String title, int page, int size) {
+
+        //Pagenation, sorting
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "price").and(Sort.by(Sort.Direction.ASC, "title"));
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        return productRepository.findByTitleContainsIgnoreCase(title, pageRequest);
     }
 }
