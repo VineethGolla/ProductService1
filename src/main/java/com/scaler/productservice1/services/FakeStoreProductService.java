@@ -8,6 +8,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.apache.coyote.Response;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,16 @@ import java.util.List;
 
 @Service("fakeStoreProductService")
 //@Primary or use Qualifier
+@Primary
 public class FakeStoreProductService implements ProductService {
 
     private RestTemplate restTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     //make a http call in spring boot application
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {
 
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
@@ -48,6 +52,17 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public Product getSingleProduct(Long productId) throws ProductNotFoundException {
+
+
+        //check if the product with id present in the cache
+
+       Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId);
+         if(product != null){
+             //return from cache
+                return product;
+         }
+         //else call the fakestore api to get the product
+
         //make a http call to fakestore api and get the product with given id
         //https://fakestoreapi.com/products/1
         ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + productId,
@@ -62,8 +77,14 @@ public class FakeStoreProductService implements ProductService {
         if(fakeStoreProductDto==null){
             throw new ProductNotFoundException(productId);
         }
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        //Before returning the product, store it in cache(redis
+
+        redisTemplate.opsForHash().put("PRODUCTS","PRODUCT_" + productId, product);
+//        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        return product;
     }
+
 
     //unwrap, convert
     private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto FakeStoreProductDto) {

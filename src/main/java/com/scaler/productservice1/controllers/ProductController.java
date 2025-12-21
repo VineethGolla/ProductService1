@@ -28,17 +28,19 @@ public class ProductController {
     //constructor is needed to get the access of that created bean to this class to pass as productService.someMethod()
 
     //localhost:8080/products/1
-    @GetMapping("/{productId}/{tokenValue}")
-    public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId, @PathVariable("tokenValue") String tokenValue) throws ProductNotFoundException { //replace productID with value inside PathVariable
+//    @GetMapping("/{productId}/{tokenValue}")
+    @GetMapping("/{productId}")
+//    public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId, @PathVariable("tokenValue") String tokenValue) throws ProductNotFoundException { //replace productID with value inside PathVariable
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("productId") Long productId) throws ProductNotFoundException {
 
         Product product=null;
         ResponseEntity<Product> responseEntity=null;
-        if(!AuthCommons.ValidateToken(tokenValue)) {
-            responseEntity = new ResponseEntity<>(product, HttpStatus.UNAUTHORIZED);
-        }else{
+//        if(!AuthCommons.ValidateToken(tokenValue)) {
+//            responseEntity = new ResponseEntity<>(product, HttpStatus.UNAUTHORIZED);
+//        }else{
             product = productService.getSingleProduct(productId);
             responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
-        }
+//        }
         return responseEntity;
     }
 
@@ -73,6 +75,8 @@ public class ProductController {
         return new ResponseEntity<String>("Product with id " + productId + " deleted successfully", HttpStatus.OK);
     }
 
+
+    //pagenation, sorting
     @GetMapping("/title/{title}/{pageNumber}/{pageSize}")
     public Page<Product> getProductByTitleIgnoreCase(@PathVariable("title") String title, @PathVariable("pageNumber") int pageNumber, @PathVariable("pageSize") int pageSize) {
         return productService.getProductsByCategoryTitleIgnoreCase(title, pageNumber, pageSize);
