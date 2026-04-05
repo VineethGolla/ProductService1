@@ -1,22 +1,34 @@
-Product Service
+# Product Service API
 
-Spring Boot service exposing product-related REST APIs.
+## Overview
+Microservice for managing product data using Spring Boot with REST APIs and database integration.
 
-Features:
-- CRUD operations
-- Pagination and sorting
-- Proper exception handling
+## Features
+- CRUD APIs for products
+- Pagination and sorting support
+- Exception handling
+- MySQL integration using JPA
+- Containerized deployment support
 
-Tech:
+## Tech Stack
 - Java
 - Spring Boot
-- Maven
+- Spring Data JPA
 - MySQL
+- Redis
+- Docker
+- Kubernetes
 
-Example endpoints:
-GET /products  
-POST /products  
-GET /products?page=0&size=10&sort=name
+## Architecture
+Layered architecture:
+Controller → Service → Repository
 
-Run:
-mvn spring-boot:run
+## How to Run
+1. Clone the repository
+2. Configure database properties
+3. Run using Maven or Gradle
+
+## Future Improvements
+- Add caching using Redis
+- Improve scalability
+- Add API rate limiting
